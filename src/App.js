@@ -7,12 +7,6 @@ import Header from './components/header/header.component.jsx';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component.jsx';
 import { auth } from './firebase/firebase.utils';
 
-const HatsPage = () => (
-   <div>
-      <h1>Welcome to the hats Page</h1>
-   </div>
-)
-
 class  App extends React.Component {
    constructor () 
    {
@@ -20,11 +14,12 @@ class  App extends React.Component {
       this.state={
          currentUser: null
       };
+   }
 
-      unsubscribeFromAuth = null
+      unsubscribeFromAuth = null;
 
       componentDidMount() {
-         unsubscribeFromAuth=auth.onAuthStateChanged (user => {
+         this.unsubscribeFromAuth=auth.onAuthStateChanged(user => {
             this.setState({currentUser: user});
             console.log(user);
          });
@@ -33,11 +28,10 @@ class  App extends React.Component {
          this.unsubscribeFromAuth();
       }
 
-   }
    render() {
    return (
    <div>
-      <Header />
+      <Header currentUser={this.state.currentUser}/>
       <Switch>
          <Route exact path='/' component= {Homepage} />
          <Route path='/shop' component={ShopPage} />
